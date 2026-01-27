@@ -48,7 +48,7 @@ function Header() {
                 <button className={`flex justify-center items-center w-1/3 mr-5 md:mr-0`}
                 
                 >
-                    <img src={`${isOpen? close : hamburger}`} alt="iconMenu" className={`lg:hidden`} onClick={toggleMenu}/>
+                    <img src={`${isOpen? close : hamburger}`} alt="iconMenu" className={`${style.hiddenMenu}`} onClick={toggleMenu}/>
                 </button>
                 
                 

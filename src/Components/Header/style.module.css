@@ -18,3 +18,9 @@
         display: none;
     }
 }
+
+@media(min-width: 769px) {
+    .hiddenMenu {
+        display: none;
+    }
+}
