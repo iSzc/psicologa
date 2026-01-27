@@ -1,0 +1,45 @@
+@media (max-width: 769px) {
+    .rightImg, .psicoImg, .titleHome {
+        display: none;
+    }
+
+    .titleHomeMob {
+        display: flex;
+    }
+
+    .btnBottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .picMob {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .aboutPsi {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 1025px) {
+    .rightImg {
+        display: none;
+    }
+
+    .btnBottom {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .rightImg {
+        display: none;
+    }
+}

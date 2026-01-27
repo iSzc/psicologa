@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+US+Trad+Guides&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Gulzar&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+.font-lato {
+  font-family: "Lato", sans-serif !important;
+}
+
+.font-quicksand {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+.font-Playwrite {
+    font-family:  "Playwrite US Trad Guides", cursive !important;
+}
+
+.font-libre {
+    font-family: "Libre Caslon Display", serif;
+}
+
+.font-LeagueScript {
+  font-family: "League Script", cursive;
+}
+
+.font-CreteRound {
+  font-family: "Crete Round", serif;
+}
+
+.font-Gulzar {
+  font-family: "Gulzar", serif;
+}
