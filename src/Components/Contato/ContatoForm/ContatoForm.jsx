@@ -23,7 +23,7 @@ function ContatoForm() {
 
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -37,7 +37,37 @@ function ContatoForm() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Form enviado:", formData);
+      try {
+        const response = await fetch("https://sendcontactemail-ykd3kgl4wq-uc.a.run.app", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: formData.nome,
+            email: formData.email,
+            telefone: formData.telefone,
+            servico: formData.servico,
+            mensagem: formData.mensagem,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao enviar formulário")
+        }
+
+        alert("Mensagem enviada com sucesso!");
+        setFormData({
+          nome: "",
+          telefone: "",
+          email: "",
+          servico: "",
+          mensagem: "",
+        });
+      } catch (error) {
+        console.error(error);
+        alert("Err ao enviaar mensagem. Tente novamente.")
+      }
     }
   };
 
@@ -121,6 +151,7 @@ function ContatoForm() {
 
       
       <motion.button
+        onSubmit={handleSubmit}
         initial={{ x: 20, opacity: 0}}
         animate={{ x: 0, opacity: 1}}
         transition={{delay: 0.2, duration: 0.5}}
