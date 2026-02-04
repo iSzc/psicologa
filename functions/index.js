@@ -22,6 +22,10 @@ exports.sendContactEmail = functions.https.onRequest(async (req, res) => {
     return res.status(400).json({ error: "Dados obrigatórios ausentes" });
   }
 
+  console.log("EMAIL_USER:", EMAIL_USER.value());
+  console.log("EMAIL_PASS:", EMAIL_PASS.value() ? "OK" : "UNDEFINED");
+
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
