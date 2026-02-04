@@ -38,7 +38,7 @@ function ContatoForm() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await fetch("https://sendcontactemail-ykd3kgl4wq-uc.a.run.app", {
+        const response = await fetch("https://us-central1-psicologa-6075.cloudfunctions.net/sendContactEmail", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
