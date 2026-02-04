@@ -66,7 +66,7 @@ function ContatoForm() {
         });
       } catch (error) {
         console.error(error);
-        alert("Err ao enviaar mensagem. Tente novamente.")
+        alert("Erro ao enviar mensagem. Tente novamente.")
       }
     }
   };
@@ -151,7 +151,6 @@ function ContatoForm() {
 
       
       <motion.button
-        onSubmit={handleSubmit}
         initial={{ x: 20, opacity: 0}}
         animate={{ x: 0, opacity: 1}}
         transition={{delay: 0.2, duration: 0.5}}
