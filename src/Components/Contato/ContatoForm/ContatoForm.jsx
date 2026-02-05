@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ServicosSelect from "./ServicosSelect";
-import { motion } from "framer-motion"; // Removido 'scale' desnecessário
+import { motion } from "framer-motion";
 
 function ContatoForm() {
   const [formData, setFormData] = useState({
@@ -11,9 +11,7 @@ function ContatoForm() {
     mensagem: "",
   });
 
-  const [focusedField, setFocusedField] = useState(null); // Corrigido: era setOnFocus, mas deve ser setFocusedField
-
-  // Removidos handleFocus e handleBlur desnecessários, pois são inline nos inputs
+  const [focusedField, setFocusedField] = useState(null);
 
   const [errors, setErrors] = useState({});
 
@@ -47,8 +45,16 @@ function ContatoForm() {
         });
 
         if (!response.ok) {
-          const errorData = await response.json(); // Tente capturar detalhes do erro do back-end
-          throw new Error(errorData.error || "Erro ao enviar formulário");
+          let errorMessage = "Erro ao enviar formulário";
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch (jsonError) {
+            // Se não for JSON, tente ler como texto (ex.: página HTML de erro)
+            const textResponse = await response.text();
+            errorMessage = textResponse || errorMessage;
+          }
+          throw new Error(errorMessage);
         }
 
         alert("Mensagem enviada com sucesso!");
@@ -59,7 +65,7 @@ function ContatoForm() {
           servico: "",
           mensagem: "",
         });
-        setErrors({}); // Limpe erros após sucesso
+        setErrors({});
       } catch (error) {
         console.error("Erro no fetch:", error);
         alert(`Erro ao enviar mensagem: ${error.message}. Tente novamente.`);
@@ -102,7 +108,7 @@ function ContatoForm() {
         
         <div className="flex-1">
           <input
-            type="tel" // Mudado para 'tel' para melhor semântica (embora 'number' funcione)
+            type="tel"
             placeholder="Telefone"
             className={`border-2 rounded-xl border-gray-400 pb-1 w-full lg:h-14 lg:text-2xl pl-4 ${focusedField === "telefone" ? "border-dashed border-4 rounded border-[#ff7f00]" : ""}`}
             value={formData.telefone}
@@ -134,7 +140,7 @@ function ContatoForm() {
         initial={{ x: 20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        whileHover={{ scale: 1.2 }} // Corrigido: era 'scale', mas deve ser { scale: 1.2 }
+        whileHover={{ scale: 1.2 }}
         type="submit"
         className="bg-black text-white py-2 rounded-md mt-4 lg:w-50 mb-10 cursor-pointer hover:bg-[#cab1b2] hover:text-black hover:font-bold"
       >

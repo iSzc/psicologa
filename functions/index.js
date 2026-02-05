@@ -7,17 +7,17 @@ const nodemailer = require("nodemailer");
 exports.sendContactEmail = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
     if (req.method !== "POST") {
-      return res.status(405).send("Method Not Allowed");
+      return res.status(405).json({ error: "Method Not Allowed" }); // Garantir JSON sempre
     }
 
-    const { nome, email, telefone, mensagem } = req.body;
+    const { nome, email, telefone, servico, mensagem } = req.body;
 
     // Validação básica dos campos obrigatórios
-    if (!nome || !email || !mensagem) {
-      return res.status(400).json({ error: "Dados obrigatórios ausentes: nome, email e mensagem são necessários." });
+    if (!nome || !email || !mensagem || !servico) {
+      return res.status(400).json({ error: "Dados obrigatórios ausentes: nome, email, servico e mensagem são necessários." });
     }
 
-    // Validação simples do formato do email (opcional, mas recomendado)
+    // Validação simples do formato do email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Formato de email inválido." });
@@ -27,21 +27,22 @@ exports.sendContactEmail = functions.https.onRequest((req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: functions.config().email.user, // Certifique-se de que isso esteja configurado no Firebase
-        pass: functions.config().email.pass, // Use uma senha de aplicativo se 2FA estiver ativado no Gmail
+        user: functions.config().email.user, // Certifique-se de que isso esteja configurado
+        pass: functions.config().email.pass, // Use senha de aplicativo se 2FA estiver ativado
       },
     });
 
     try {
       // Envio do email
       await transporter.sendMail({
-        from: `"Site Psicóloga" <${functions.config().email.user}>`, // O 'from' deve ser o mesmo que o user para evitar bloqueios
+        from: `"Site Psicóloga" <${functions.config().email.user}>`,
         to: "heliodinizjunior@gmail.com",
         subject: "Novo contato pelo Site",
         text: `
 Nome: ${nome}
 Email: ${email}
 Telefone: ${telefone || "Não informado"}
+Serviço: ${servico}
 
 Mensagem:
 ${mensagem}
@@ -52,7 +53,7 @@ ${mensagem}
       return res.status(200).json({ ok: true, message: "Email enviado com sucesso!" });
     } catch (error) {
       console.error("Erro ao enviar email:", error);
-      // Resposta de erro (não exponha detalhes internos ao usuário)
+      // Resposta de erro sempre em JSON
       return res.status(500).json({ error: "Erro interno ao enviar o email. Tente novamente mais tarde." });
     }
   });
