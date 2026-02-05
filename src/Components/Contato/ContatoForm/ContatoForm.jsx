@@ -47,12 +47,14 @@ function ContatoForm() {
         if (!response.ok) {
           let errorMessage = "Erro ao enviar formulário";
           try {
-            const errorData = await response.json();
+            // Leia o corpo como texto primeiro (evita consumo duplo do stream)
+            const responseText = await response.text();
+            // Tente parsear como JSON
+            const errorData = JSON.parse(responseText);
             errorMessage = errorData.error || errorMessage;
-          } catch (jsonError) {
-            // Se não for JSON, tente ler como texto (ex.: página HTML de erro)
-            const textResponse = await response.text();
-            errorMessage = textResponse || errorMessage;
+          } catch (parseError) {
+            // Se não for JSON válido, use o texto bruto (ex.: página HTML de erro)
+            errorMessage = responseText || errorMessage;
           }
           throw new Error(errorMessage);
         }
