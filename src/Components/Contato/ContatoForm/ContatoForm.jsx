@@ -17,63 +17,7 @@ function ContatoForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newErrors = {};
-
-    if (!formData.telefone) newErrors.telefone = "Campo obrigatório";
-    if (!formData.nome) newErrors.nome = "Campo obrigatório";
-    if (!formData.email) newErrors.email = "Campo obrigatório";
-    if (!formData.servico) newErrors.servico = "Selecione um serviço";
-    if (!formData.mensagem) newErrors.mensagem = "Campo obrigatório";
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await fetch("https://us-central1-psicologa-6075.cloudfunctions.net/sendContactEmail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nome: formData.nome,
-            email: formData.email,
-            telefone: formData.telefone,
-            servico: formData.servico,
-            mensagem: formData.mensagem,
-          }),
-        });
-
-        if (!response.ok) {
-          let errorMessage = "Erro ao enviar formulário";
-          try {
-            // Leia o corpo como texto primeiro (evita consumo duplo do stream)
-            const responseText = await response.text();
-            // Tente parsear como JSON
-            const errorData = JSON.parse(responseText);
-            errorMessage = errorData.error || errorMessage;
-          } catch (parseError) {
-            // Se não for JSON válido, use o texto bruto (ex.: página HTML de erro)
-            errorMessage = responseText || errorMessage;
-          }
-          throw new Error(errorMessage);
-        }
-
-        alert("Mensagem enviada com sucesso!");
-        setFormData({
-          nome: "",
-          telefone: "",
-          email: "",
-          servico: "",
-          mensagem: "",
-        });
-        setErrors({});
-      } catch (error) {
-        console.error("Erro no fetch:", error);
-        alert(`Erro ao enviar mensagem: ${error.message}. Tente novamente.`);
-      }
-    }
-  };
+  }
 
   return (
     <motion.form
