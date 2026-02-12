@@ -18,7 +18,6 @@ const ServicosSelect = ({ value, onChange, error }) => {
     setOpen(false);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -40,11 +39,7 @@ const ServicosSelect = ({ value, onChange, error }) => {
       >
         {value || "Selecione um serviço"}
       </div>
-
-    
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-
-      
       <AnimatePresence>
         {open && (
           <motion.div
@@ -66,6 +61,7 @@ const ServicosSelect = ({ value, onChange, error }) => {
           </motion.div>
         )}
       </AnimatePresence>
+      <input type="hidden" name="servico" value={value || ""} />
     </div>
   );
 };

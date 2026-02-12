@@ -46,12 +46,9 @@ function Header() {
                     </Link>
                 </div>
                 <button className={`flex justify-center items-center w-1/3 mr-5 md:mr-0`}
-                
                 >
                     <img src={`${isOpen? close : hamburger}`} alt="iconMenu" className={`${style.hiddenMenu}`} onClick={toggleMenu}/>
                 </button>
-                
-                
             </div>
             {isOpen && ( 
                 <div className={`fixed min-h-screen w-[200px] flex flex-col right-0 bg-[#f0c8b8] opacity-[.95] rounded-xl text-2xl font-CreteRound ${style.animation} ${style.menuIcon} items-center gap-y-8 pt-10`}>

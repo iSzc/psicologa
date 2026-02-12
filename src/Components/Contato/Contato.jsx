@@ -2,28 +2,13 @@ import Header from "../Header/Header";
 import ContatoForm from "../Contato/ContatoForm/ContatoForm.jsx"
 import drawPsi from "../../assets/drawPsi2.png"
 import style from "../Contato/style.module.css"
-import { useState } from "react";
 import { motion } from "framer-motion"
 
-
 function Contato() {
-//     const [nameValue, setNameValue] = useState("");
-
-//     const [formData, setFormData] = useState({
-//     inputNameValue: "",
-//     inputEmailValue: "",
-//     inputSubjectValue: "",
-//     inputMessageValue: "",
-//   });
-
-
     return (
         <main 
-        
         className="main bg-zinc-100">
-
             <Header/>
-            
             <div
             className={`content flex`}>
                 <div className={`left flex flex-col mr-5 ml-5`}>

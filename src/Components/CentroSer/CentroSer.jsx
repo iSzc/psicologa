@@ -5,8 +5,7 @@ import logoIntegra from "../../assets/logoIntegraVida.png"
 import style from "../CentroSer/style.module.css"
 import { useState } from "react";
 import { motion } from "framer-motion";
-import whatsappLogo from "../../assets/whatsappLogo.svg"
-import psicoImg from "../../assets/psicologa.png"
+
 
 
 function CentroSer() {
@@ -72,7 +71,7 @@ function CentroSer() {
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay:0.5, duration: 0.5 }}
-                    src={drawPsi} alt="ImagemLateralDesenho" className=""/>
+                    src={drawPsi} alt="ImagemLateralDesenho"/>
                 </div>
             </div>
         </main>

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import ServicosSelect from "./ServicosSelect";
 import { motion } from "framer-motion";
+import { useForm, ValidationError } from "@formspree/react"
 
 function ContatoForm() {
+  const [state, formspreeSubmit] = useForm("mwvnllzk")
   const [formData, setFormData] = useState({
     nome: "",
     telefone: "",
@@ -17,6 +19,48 @@ function ContatoForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let newErrors = {}
+
+    console.log(formData);
+
+    if (!formData.nome.trim()) {
+      newErrors.nome = "Nome é obrigatório"
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email é obrigatório"
+    } else if(!formData.email.includes("@")) {
+      newErrors.email = "Email inválido"
+    }
+
+    if (!formData.telefone.trim()) {
+      newErrors.telefone = "Telefone é obrigatório"
+    }
+
+    if (!formData.servico || !formData.servico.trim()) {
+      newErrors.servico = "Selecione um serviço"
+    }
+
+    if (!formData.mensagem.trim()) {
+      newErrors.mensagem = "Mensagem obrigatória"
+    }
+
+    setErrors(newErrors)
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+   
+    await formspreeSubmit(e);
+
+      setFormData({
+        nome: "",
+        telefone: "",
+        email: "",
+        servico: "",
+        mensagem: "",
+      })
   }
 
   return (
@@ -29,6 +73,7 @@ function ContatoForm() {
     >
       <input
         type="text"
+        name="nome"
         placeholder="Nome"
         className={`border-2 rounded-xl border-gray-400 lg:h-14 lg:text-2xl pl-4 ${focusedField === "nome" ? "border-dashed border-4 rounded-2xl border-[#ff7f00]" : ""}`}
         value={formData.nome}
@@ -42,6 +87,7 @@ function ContatoForm() {
         <div className="flex-1">
           <input
             type="email"
+            name="email"
             placeholder="Email"
             className={`border-2 rounded-xl border-gray-400 w-full lg:h-14 lg:text-2xl pl-4 ${focusedField === "email" ? "border-dashed border-4 rounded border-[#ff7f00]" : ""}`}
             value={formData.email}
@@ -51,10 +97,10 @@ function ContatoForm() {
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
-        
         <div className="flex-1">
           <input
             type="tel"
+            name="telefone"
             placeholder="Telefone"
             className={`border-2 rounded-xl border-gray-400 pb-1 w-full lg:h-14 lg:text-2xl pl-4 ${focusedField === "telefone" ? "border-dashed border-4 rounded border-[#ff7f00]" : ""}`}
             value={formData.telefone}
@@ -64,10 +110,11 @@ function ContatoForm() {
           />
           {errors.telefone && <p className="text-red-500 text-sm">{errors.telefone}</p>}
         </div>
-      </div>
 
+      </div>
       <ServicosSelect
         value={formData.servico}
+        name="servico"
         onChange={(servicoSelecionado) => setFormData({ ...formData, servico: servicoSelecionado })}
         error={errors.servico}
       />
@@ -75,6 +122,7 @@ function ContatoForm() {
       <textarea
         placeholder="Mensagem"
         className={`border-2 rounded-xl border-gray-400 pb-1 h-24 lg:text-2xl pl-4 pt-4 ${focusedField === "mensagem" ? "border-dashed border-4 border-[#ff7f00] rounded" : ""}`}
+        name="mensagem"
         value={formData.mensagem}
         onFocus={() => setFocusedField("mensagem")}
         onBlur={() => setFocusedField(null)}
@@ -83,6 +131,7 @@ function ContatoForm() {
       {errors.mensagem && <p className="text-red-500 text-sm">{errors.mensagem}</p>}
 
       <motion.button
+        disabled={state.submitting}
         initial={{ x: 20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -90,7 +139,7 @@ function ContatoForm() {
         type="submit"
         className="bg-black text-white py-2 rounded-md mt-4 lg:w-50 mb-10 cursor-pointer hover:bg-[#cab1b2] hover:text-black hover:font-bold"
       >
-        Enviar
+        {state.submitting ? "Enviando..." : "Enviar"}
       </motion.button>
     </motion.form>
   );
